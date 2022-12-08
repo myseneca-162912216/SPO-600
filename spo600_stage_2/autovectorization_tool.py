@@ -151,7 +151,7 @@ def compile_multiple_architechture_files(multiple_architecture_list):
             cmd = ["gcc", "-g", "-O3", "-c", "-march=armv8-a+sve", architecture_file_name, "-o",architecture_file_name_exec]
 
         elif architecture=="sve2":
-            cmd = ["gcc", "-g", "-O3", "-c", "-march=armv8-a+sve", architecture_file_name, "-o",architecture_file_name_exec]
+            cmd = ["gcc", "-g", "-O3", "-c", "-march=armv8-a+sve2", architecture_file_name, "-o",architecture_file_name_exec]
 
         p = subprocess.Popen(cmd)
         p.wait()
@@ -193,7 +193,9 @@ def make_ifunc(prototype_names_for_multiple_architechture_list,file_name="ifunc.
                     long hwcaps2 = getauxval(AT_HWCAP2);
             
                     printf("### Resolver function - selecting the implementation to use for  foo()");
-                    if (hwcaps & HWCAP_SVE) {
+                    if (hwcaps2 & HWCAP2_SVE2) {
+                            return adjust_channels_sve2;
+                    } else if (hwcaps & HWCAP_SVE) {
                             return adjust_channels_sve;
                     } else {
                             return adjust_channels_asimd;
