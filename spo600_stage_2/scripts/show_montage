@@ -1,0 +1,16 @@
+#!/bin/bash
+#
+# show_montage :: make a montage of the output images
+#			and display via X11
+#
+# This script uses the ImageMagick "montage" and "display" utilities
+#
+# Execute this script from the top-level directory in the
+# repo
+
+if xset q >&/dev/null
+then
+	montage tests/output/bree*jpg -tile 3x1 -geometry +2+2 - | display
+else
+	echo "$(basename $0): error: this program requires an X11 display"
+fi
